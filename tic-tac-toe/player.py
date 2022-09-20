@@ -38,7 +38,8 @@ class Human(Player):
                 if val not in game.available_moves():
                     raise ValueError
 
-                valid_square = True  # if these are successful
+                # if these are successful
+                valid_square = True
             except ValueError:
                 print("Invalid square. Try again.")
 
