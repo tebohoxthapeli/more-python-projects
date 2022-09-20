@@ -14,27 +14,14 @@ class Computer(Player):
 
 class Human(Player):
     def get_move(self, game: TicTacToe):
-        valid_square = False
-        val = None
-
-        while not valid_square:
-            square = input(f"{self.letter}'s turn. Input move (0-8): ")
-            print()
-
-            # we're going to check that this is a correct value by trying to cast it to an integer, and if it's
-            # not, then we say it's invalid
-            # if that spot is not available on the board,
-            # we also say it's invalid
-
+        while True:
             try:
-                val = int(square)
+                square = int(input(f"\n{self.letter}'s turn. Input move (0-8): "))
 
-                if val not in game.available_moves():
+                # check if the move hasn't been made yet
+                if square not in game.available_moves():
                     raise ValueError
 
-                # if these are successful
-                valid_square = True
+                return square
             except ValueError:
                 print("Invalid square. Try again.")
-
-        return val
