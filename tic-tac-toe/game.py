@@ -18,14 +18,13 @@ class TicTacToe:
 
         for row in number_board:
             print(f"| {' | '.join(row)} |")
-
         print()
 
     def print_board(self) -> None:
         # get the rows
-        space_board = [self.board[i * 3 : (i + 1) * 3] for i in range(3)]
+        board_rows = [self.board[i * 3 : (i * 3) + 3] for i in range(3)]
 
-        for row in space_board:
+        for row in board_rows:
             print(f"| {' | '.join(row)} |")
 
     def available_moves(self) -> list[int]:
