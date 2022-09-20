@@ -13,11 +13,13 @@ class TicTacToe:
     def print_board_nums() -> None:
         # example: | 0 | 1 | 2 |
         # tells us what number corresponds to what box
-        
+
         number_board = [[str(i) for i in range(j * 3, (j + 1) * 3)] for j in range(3)]
 
         for row in number_board:
             print(f"| {' | '.join(row)} |")
+
+        print()
 
     def print_board(self) -> None:
         # get the rows
