@@ -92,9 +92,7 @@ class TicTacToe:
 
             if self.is_winner(square, letter):
                 self.current_winner = letter
-
             return True
-
         return False
 
 
@@ -104,7 +102,6 @@ def play(
     o_player,
     print_game: bool = True,
 ) -> None:
-    # returns winner of the game (the letter) or None for a tie
     if print_game:
         game.print_board_nums()
 
