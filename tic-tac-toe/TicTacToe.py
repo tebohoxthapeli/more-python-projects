@@ -42,7 +42,7 @@ class TicTacToe:
     def num_empty_squares(self) -> int:
         return self.board.count(" ")
 
-    def is_winner(self, square, letter):
+    def is_winner(self, square: int, letter: str):
         # winner if 3 same letters in a row, in any direction
         # check all directions
         # check row first
@@ -80,7 +80,7 @@ class TicTacToe:
         # if all of these fail
         return False
 
-    def make_move(self, square, letter):
+    def make_move(self, square: int, letter: str):
         # if move is valid then make it (assign letter to square) then return true
         # If move is invalid, return false
 

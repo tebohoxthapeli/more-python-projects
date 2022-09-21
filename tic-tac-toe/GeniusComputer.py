@@ -5,9 +5,6 @@ from math import inf
 
 
 class GeniusComputer(Player):
-    def __init__(self, letter: str):
-        super().__init__(letter)
-
     def minimax(self, state: TicTacToe, player: str):
         # yourself
         max_player = self.letter
