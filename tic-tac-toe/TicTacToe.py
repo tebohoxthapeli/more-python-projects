@@ -1,6 +1,3 @@
-import time
-
-
 class TicTacToe:
     def __init__(self):
         # single list to rep 3x3 board
@@ -94,61 +91,3 @@ class TicTacToe:
                 self.current_winner = letter
             return True
         return False
-
-
-def play(
-    game: TicTacToe,
-    x_player,
-    o_player,
-    print_game: bool = True,
-) -> None:
-    if print_game:
-        game.print_board_nums()
-
-    # starting letter
-    letter = "x"
-
-    # iterate while the game still has empty squares
-    # (we don't have to worry about winner because we'll just return that, which breaks the loop)
-
-    while game.empty_squares():
-        # get move from appropriate player:
-        if letter == "o":
-            square = o_player.get_move(game)
-        else:
-            square = x_player.get_move(game)
-
-        # define a function to make a move
-        if game.make_move(square, letter):
-            if print_game:
-                print(f"\n{letter} makes a move to square {square}")
-                game.print_board()
-
-            if game.current_winner:
-                if print_game:
-                    print(f"\n{letter} wins")
-                return
-
-            # after we made our move, we need to alternate letters
-            letter = "o" if letter == "x" else "x"  # switches player
-
-            # tiny pause
-            time.sleep(0.8)
-
-    if print_game:
-        print("It's a tie")
-
-
-import player
-
-
-def main():
-    x_player = player.Human("x")
-    o_player = player.Computer("o")
-    t = TicTacToe()
-
-    play(t, x_player, o_player, print_game=True)
-
-
-if __name__ == "__main__":
-    main()
