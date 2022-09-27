@@ -1,3 +1,5 @@
+from re import compile
+
 Puzzle = list[list[int]]
 
 
@@ -87,66 +89,139 @@ def solve_sudoku(puzzle: Puzzle) -> tuple[bool, Puzzle]:
     return (False, [])
 
 
-def get_str_rep(puzzle: Puzzle) -> str:
+def print_mat_str_repr(matrix: Puzzle) -> None:
+    str_mat: list[list[str]] = []
+
+    for r in range(3):
+        new_row = []
+
+        for c in range(3):
+            val = str(matrix[r][c])
+
+            if val == "-1":
+                val = ""
+
+            new_row.append(val.center(3))
+
+        str_mat.append(new_row)
+
+    str_repr = ""
+
+    for r in str_mat:
+        str_repr += f"\n|{'|'.join(r)}|"
+
+    print(str_repr)
+
+
+def get_str_repr(puzzle: Puzzle) -> str:
     str_puzzle: list[list[str]] = []
 
     for r in range(9):
-        new_row: list[str] = []
+        new_row = []
 
         for c in range(9):
             val = str(puzzle[r][c])
 
             if val == "-1":
-                val = "*"
+                val = " "
 
             new_row.append(val.center(3))
 
             if c in [3 - 1, 6 - 1]:
-                new_row.append("".center(3))
+                new_row.append("".center(13))
 
         str_puzzle.append(new_row)
 
         if r in [3 - 1, 6 - 1]:
             str_puzzle.append([])
 
-    str_rep = ""
+    str_repr = ""
 
     for r in str_puzzle:
-        str_rep += f"\n|{'|'.join(r)}|" if len(r) else "\n"
+        str_repr += f"\n|{'|'.join(r)}|" if len(r) else "\n"
 
-    return str_rep
+    return str_repr
+
+
+def get_instructions() -> None:
+    print("Instructions:\n")
+    print(
+        "When prompted: 'matrix: {m}, row: {r}', enter the column indices (1-3) with blocks that have numbers in them in that matrix and row."
+    )
+    print("Your input should be in the format: 'x.y.z'.")
+    print("Note: All indices are optional as blocks can be empty.")
+    print(
+        "If all blocks in that row are empty, just press the <enter> key on your keyboard."
+    )
+    print(
+        "Then for each block with a number, enter that number as shown in your Sudoku puzzle."
+    )
+    print("Enter 'q' to quit.\n")
+
+
+def is_quit(user_input: str) -> None:
+    if user_input.lower() == "q":
+        print("\nInfo: Quitting program...")
+        quit()
+
+
+def is_duplicate(user_input: str) -> bool:
+    no_period = user_input.replace(".", "")
+    return len(no_period) > len(set(no_period))
+
+
+def get_row_vals(col_idxs: list[int], row_nr: int) -> list[tuple[int, int]]:
+    regex = r"^[1-9\.]{,3}$"
+    pattern = compile(regex)
+
+    while True:
+        user_input = input(f"row: {row_nr} -> ")
+        is_quit(user_input)
+
+        if user_input:
+            match = pattern.search(user_input)
+
+            if match and not is_duplicate(user_input):
+                user_input = user_input.ljust(3, ".")
+                vals_and_idxs = [x for x in zip(user_input, col_idxs)]
+                vals_and_idxs = list(filter(lambda x: x[0] != ".", vals_and_idxs))
+
+                return [(int(x[0]), x[1]) for x in vals_and_idxs]
+
+            print(
+                "User input error: Invalid input entered. Please read the instructions and try again.\n"
+            )
+            get_instructions()
+        else:
+            return []
 
 
 def get_puzzle() -> Puzzle:
-    final_puzzle = []
+    final_puzzle = [[-1 for _ in range(9)] for _ in range(9)]
+    idxs = [[b for b in range(3 * a, 3 * a + 3)] for a in range(3)]
 
-    for r in range(9):
-        row_list = []
+    for matr_row_nr in range(3):
+        print(f"\n=== matrix row: {matr_row_nr + 1} ===")
+        for matr_nr in range(3):
+            print(f"\n= matrix: {matr_nr + 1} =\n")
 
-        for c in range(9):
-            number = input(
-                f"\nEnter number at ({r},{c}) or press <enter> if empty block: "
-            )
-
-            if not number:
-                number = -1
-
-            row_list.append(int(number))
-            print(f"Row {r} so far: {row_list}")
-
-        final_puzzle.append(row_list)
+            for row_nr, row_idx in enumerate(idxs[matr_row_nr], 1):
+                for val, col_idx in get_row_vals(idxs[matr_nr], row_nr):
+                    final_puzzle[row_idx][col_idx] = val
 
     return final_puzzle
 
 
 def main():
+    print("\nSUDOKU SOLVER:")
+
     is_solved, solved_puzzle = solve_sudoku(get_puzzle())
 
     print(f"\nIs the Sudoku puzzle solvable?: {is_solved}")
 
     if is_solved:
         print("\nSolved puzzle:")
-        print(get_str_rep(solved_puzzle))
+        print(get_str_repr(solved_puzzle))
 
 
 if __name__ == "__main__":
