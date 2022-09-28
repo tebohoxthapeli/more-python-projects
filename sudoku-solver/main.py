@@ -7,9 +7,9 @@ from formatters import print_puzzle_str_repr
 def main():
     print("\nSUDOKU SOLVER:")
     get_instructions()
-
-    is_solved, solved_puzzle = solve_sudoku(get_puzzle())
-
+    puzzle = get_puzzle()
+    print("Trying to solve the puzzle. Hold on...")
+    is_solved, solved_puzzle = solve_sudoku(puzzle)
     print(f"\nIs the Sudoku puzzle solvable?: {is_solved}")
 
     if is_solved:

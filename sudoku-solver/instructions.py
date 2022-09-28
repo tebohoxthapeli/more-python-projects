@@ -4,7 +4,7 @@ def get_instructions() -> None:
         "When prompted: 'row: {r} ->', enter its block numbers (1-9) as shown in your Sudoku puzzle."
     )
     print(
-        "Your input should be in the format: '123', where each number corresponds with a block in that row of the 3x3 submatrix."
+        "Your input should be in the format: '123', where each number corresponds to a block in that row of the 3x3 submatrix."
     )
     print("Note: Each number is optional as blocks can be empty.")
     print("An empty block is represented by a period (eg. '.12').")

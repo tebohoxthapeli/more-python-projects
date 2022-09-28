@@ -52,21 +52,21 @@ def get_puzzle() -> Puzzle:
 
         for matr_nr in range(3):
             print(f"= matrix: {matr_nr + 1} =\n")
-            matrix = []
+            matr = []
 
             for row_nr, row_idx in enumerate(idxs[matr_row_nr], 1):
                 row_vals = get_row_vals(idxs[matr_nr], row_nr)
 
                 if not row_vals:
-                    matrix.append([-1 for _ in range(3)])
+                    matr.append([-1 for _ in range(3)])
                 else:
-                    matrix.append([x[0] for x in row_vals])
+                    matr.append([x[0] for x in row_vals])
 
                 row_vals = list(filter(lambda x: x[0] != -1, row_vals))
 
                 for val, col_idx in row_vals:
                     final_puzzle[row_idx][col_idx] = val
 
-            print_mat_str_repr(matrix)
+            print_mat_str_repr(matr)
 
     return final_puzzle
